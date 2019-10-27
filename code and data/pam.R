@@ -10,18 +10,17 @@ library(readr)
 # import PAM50 data
 ##################################
 
-Patient_Preclin <- read_delim("data/data_clinical.txt", delim = "\t", skip = 5)
+Patient_Preclin <- read_delim("code and data/data/data_clinical.txt", delim = "\t", skip = 5)
 
-Patient_Post <- read_delim("data/data_bcr_clinical_data_patient.txt", delim = "\t", skip = 4)
+Patient_Post <- read_delim("code and data/data/data_bcr_clinical_data_patient.txt", delim = "\t", skip = 4)
 
-pam50_score <- read_delim("data/tcgaPAM50_pam50scores.txt", delim = "\t")
+pam50_score <- read_delim("code and data/data/tcgaPAM50_pam50scores.txt", delim = "\t")
 
 
 ##################################
 # MERGE PRE AND POST DATA
 ##################################
 
-colnames(Patient_Post)
 
 # other way = merge.data.frame(Patient_Preclin, Patient_Post, by.x = 2, by.y = 2)
 PandPClin <- merge.data.frame(Patient_Preclin[, c(1:3,14,85)], 
