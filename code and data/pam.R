@@ -16,6 +16,7 @@ Patient_Post <- read_delim("code and data/data/data_bcr_clinical_data_patient.tx
 
 pam50_score <- read_delim("code and data/data/tcgaPAM50_pam50scores.txt", delim = "\t")
 
+Array50 <- read_delim("code and data/data/tcgaPAM50.txt", delim = "\t")
 
 ##################################
 # MERGE PRE AND POST DATA
@@ -61,3 +62,35 @@ Dat_Patient_Calls <- merge.data.frame(PandPClin, pam50_score[, c(1,16)],
                                       all.x=TRUE, all.y = TRUE)
 Dat_Patient_Calls
 
+##################################
+head(Array50)[1:5,1:5]
+colnames(Array50)[1:5]
+rownames(Array50)[1:5]
+#Array50$Hugo_Symbol
+# rownames(Array50) <- Array50$Hugo_Symbol
+# rownames(Array50)
+head(Array50)
+array50 <- as.data.frame(Array50[,2:ncol(Array50)])
+
+t_array50 <- as.data.frame(t(array50))
+head(t_array50)
+colnames(t_array50) <- rownames(Array50)
+colnames(t_array50)
+head(t_array50)
+t_array50[2,2]*t_array50[2,2]
+actine_reported_expression <- t_array50/t_array50$ACTR3B
+actine_reported_expression
+
+##################################
+
+# MERGING
+
+
+# Lets see if i dont create a id column
+# actine_reported_expression$Patient_ID <- rownames(actine_reported_expression)
+# dim(actine_reported_expression)
+# head(actine_reported_expression)
+
+# DF_Patient_A50 <- merge(DF_Patient_Calls, Array50
+#                         , by.x = "PATIENT_ID", by.y = 1, all.x=TRUE, all.y = TRUE)
+# DF_Patient_A50
