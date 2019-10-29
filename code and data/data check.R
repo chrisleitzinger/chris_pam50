@@ -4,6 +4,7 @@
 
 library(dplyr)
 library(ggplot2)
+library(stringr)
 
 ##################################
 
@@ -30,12 +31,14 @@ Dat_Patient_Calls$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT[dead_index_in_Vital_st
 Dat_Patient_Calls$TARGETED_MOLECULAR_THERAPY[dead_index_in_Vital_status]
 
 Death_outcome_DF <- Dat_Patient_Calls[c(189, 263, 311, 317, 347, 350, 416, 446, 462, 473),]
-
+Death_outcome_DF
 ##############weird
 a <- sum(Death_outcome_DF$DFS_STATUS=="Recurred/Progressed", yes = 1, no = 0)
 b <- sum(Death_outcome_DF$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT == "YES", yes = 1, no = 0)
 c <- sum(Death_outcome_DF$TREATMENT_OUTCOME_FIRST_COURSE == "%Progression%", yes = 1, no = 0)
-
+a
+b
+c
 
 table(a, b, c)
 
@@ -77,3 +80,4 @@ table(dead_index_in_Vital_status +
 table()
 xtabs()
 ggplot2
+
