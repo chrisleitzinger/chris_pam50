@@ -20,6 +20,24 @@ plot(callsVSarray50$ANLN, callsVSarray50$BAG1)
 
 plot(callsVSarray50$ANLN[callsVSarray50$Call2 == "LumB"])
 
+pairs(callsVSarray50[,3:10])
+
+# Test normality
+qqnorm(callsVSarray50$ANLN)
+qqline(callsVSarray50$ANLN)
+
+#par(mfrow = c(2,2)) tot see a 2 by 2 plot
+
+library(lattice)
+xyplot(callsVSarray50$BIRC5~callsVSarray50$CDC20| callsVSarray50$Call2, data=callsVSarray50)
+
+xyplot(callsVSarray50$BIRC5[callsVSarray50$Call2 == "Normal"]~
+         callsVSarray50$CDC20[callsVSarray50$Call2 == "Basal"], data=callsVSarray50)
+
+library("psych")
+pairs.panels(callsVSarray50$Call2 == "LumB" [6:6])
+
+
 cor(callsVSarray50$ANLN[callsVSarray50$Call2 == "LumB"])
 
 hc <- callsVSarray50 %>%
