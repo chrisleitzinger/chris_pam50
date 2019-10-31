@@ -27,7 +27,6 @@ Array50 <- read_delim("data/tcgaPAM50.txt", delim = "\t")
 # MERGE PRE AND POST DATA
 ##################################
 
-
 # other way = merge.data.frame(Patient_Preclin, Patient_Post, by.x = 2, by.y = 2)
 PandPClin <- merge.data.frame(
   Patient_Preclin[, c(1:3, 14, 85)],
@@ -65,12 +64,11 @@ array50 <- as.data.frame(Array50[, 2:ncol(Array50)])
 t_array50 <- as.data.frame(t(array50))
 colnames(t_array50) <- rownames(Array50)
 
-t_array50 / t_array50$ACTR3B
-actine_reported_expression <- t_array50 / t_array50$ACTR3B
-actine_reported_expression$Patient_ID <-
-  rownames(actine_reported_expression)
-actine_reported_expression$Patient_ID <-
-  substr(actine_reported_expression$Patient_ID,
+
+t_array50$Patient_ID <-
+  rownames(t_array50)
+t_array50$Patient_ID <-
+  substr(t_array50$Patient_ID,
          start = 6,
          stop = 12)
 
@@ -92,7 +90,7 @@ Dat_Patient_Calls <-
 dfpatient_A50 <-
   merge.data.frame(
     Dat_Patient_Calls,
-    actine_reported_expression
+    t_array50
     ,
     by.x = "PATIENT_ID",
     by.y = "Patient_ID",
