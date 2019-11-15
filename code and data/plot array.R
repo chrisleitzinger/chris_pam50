@@ -20,7 +20,7 @@ plot(callsVSarray50$ANLN, callsVSarray50$BAG1)
 
 plot(callsVSarray50$ANLN[callsVSarray50$Call2 == "LumB"])
 
-pairs(callsVSarray50[,3:10])
+
 
 # Test normality
 qqnorm(callsVSarray50$ANLN)

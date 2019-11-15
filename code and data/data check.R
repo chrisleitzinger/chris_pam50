@@ -1,10 +1,30 @@
 ##################################
 # import library
 ##################################
+#install.packages("corrplot")
 
 library(dplyr)
 library(ggplot2)
 library(stringr)
+library(corrplot)
+
+####################################################
+# SAVE_Array50 plot
+####################################################
+str(SAVE_Array50)
+sapply(SAVE_Array50, class)
+head(SAVE_Array50)
+Array50[,497:ncol(Array50)-1]
+
+Ccor_Array50 <- cor(SAVE_Array50[,350:ncol(SAVE_Array50)])
+cor_Array50 <- cor(SAVE_Array50[,2:ncol(SAVE_Array50)])
+c1 <- cor(x = SAVE_Array50[,2:250], y = SAVE_Array50[,250:ncol(SAVE_Array50)])
+c2 <- cor(x = SAVE_Array50[6:9,480:ncol(SAVE_Array50)], y= SAVE_Array50[2:5,480:ncol(SAVE_Array50)])
+
+corrplot(Ccor_Array50)
+corrplot(cor_Array50)
+corrplot(c1)
+corrplot(c2)
 
 ##################################
 
@@ -15,7 +35,7 @@ str_count(Dat_Patient_Calls, "Alive")
 Dead <- grep('Dead', Dat_Patient_Calls$VITAL_STATUS)
 str_count(Dat_Patient_Calls, "Dead")
 D <- Dat_Patient_Calls$VITAL_STATUS == "Dead"
-dead_index_in_Vital_status
+
 
 dead_index_in_Vital_status <-
    which(Dat_Patient_Calls$VITAL_STATUS == "Dead")
@@ -58,8 +78,8 @@ b
 c
 
 table(a, b, c)
-
-ggplot(Dat_Patient_Calls$PATIENT_ID, aes(x = a, y = b))
+Dat_Patient_Calls$PATIENT_ID
+ggplot(N, aes(x = a, y = b))
 hist(Dat_Patient_Calls, x = 1, y = 2)
 
 ggplot(Dat_Patient_Calls[Death_outcome_DF == 1, ], aes(x = a, y = b)) +
@@ -117,3 +137,47 @@ table(
 table()
 xtabs()
 ggplot2
+
+
+
+####################################################
+pairs(calls_array50[,2:10])
+heatmap(Array50)
+####################################################
+#cor
+####################################################
+str(calls_array50[5:10])
+str(calls_array50$ACTR3B[3:10]) 
+N <- calls_array50[2:nrow(calls_array50),4:ncol(calls_array50)-2]
+M <- calls_array50$ACTR3B[1:20]
+
+
+head(M)
+str(M)
+O <- as.character(N)
+str(O)
+P <- as.numeric(M)
+str(P)
+cor(Q,Q)
+cor(P)
+heatmap(P)
+
+
+calls_array50$ACTR3B[10:20]
+P <- as.numeric(calls_array50$ACTR3B[10:20], calls_array50$ANLN[10:20])
+O <- as.data.frame.matrix(calls_array50[2:nrow(calls_array50),4:ncol(calls_array50)-2])
+M <- as.numeric(calls_array50[2:nrow(calls_array50),4:ncol(calls_array50)-2])
+sapply(M, class)
+N
+Q
+calls_array50[2:nrow(calls_array50),4:ncol(calls_array50)-2]
+
+rm(N)
+
+
+
+cor(calls_array50[5,10], y=calls_array50[5,5])
+cor(calls_array50[2:nrow(calls_array50),2:ncol(calls_array50)-2])
+cor.test(calls_array50[2:nrow(calls_array50),2:ncol(calls_array50)-2], y= NULL)
+
+
