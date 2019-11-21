@@ -47,10 +47,101 @@ dataSandP$PATIENT_ID <-
 
 dataSandP$PATIENT_ID
 colnames(dataSandP)
+# reassign Calls to only normal, basal, luminal A/B
+pam50_score$Call2 <-
+  colnames(pam50_score[, c(2, 4:6)])[apply(pam50_score[, c(2, 4:6)], 1, which.max)]
+colnames(pam50_score) [1] <- "Patient_ID"
+sapply(pam50_score, class)
+pam50_score
+# Transpose Array50
+head(Array50)
+rownames(Array50) <- Array50$Hugo_Symbol
+colnames(Array50)
+rownames(Array50)
+tarray50 <- t(Array50)
+tarray50[1:5, 1:6]
+
+
+tarray50 <- cbind(Row.Names = rownames(tarray50), tarray50)
+rownames(tarray50)
+# rownames(tarray50) <- NULL
+# colnames(tarray50) [1] <- "Patient_ID"
+# sapply(tarray50, class)
+
+
+##################################
+# MERGING 2 big data frame
+
+# merge pam50 calls with clinical info
+Dat_Patient_Calls <-
+  merge.data.frame(
+    dataSandP,
+    pam50_score[, c(1, 16)],
+    by.x = "PATIENT_ID",
+    by.y = "Patient_ID",
+    all.x = TRUE,
+    all.y = TRUE
+  )
+
+# merge
+tarray50$Patient_ID <- rownames(tarray50)
+
+tarray50$Patient_ID <-
+    substr(tarray50$Patient_ID,
+            start = 6,
+            stop = 12) 
+pam50_score$Patient_ID <-
+     substr(pam50_score$Patient_ID, start = 6, stop = 12)
+
+
+dfpatient_A50 <-
+  merge.data.frame(
+    Dat_Patient_Calls,
+    tarray50
+    ,
+    by.x = "PATIENT_ID",
+    by.y = "Patient_ID",
+    all.x = TRUE,
+    all.y = TRUE
+  )
+
+colnames(dfpatient_A50)
+summary(dfpatient_A50)
+summary(Dat_Patient_Calls)
+
+# MERGE
+
+colnames(tarray50)
+colnames(pam50_score)
+
+calls_array50 <-
+  merge.data.frame(
+    tarray50,
+    pam50_score[, c(1, 7, 16)],
+    by.x = "Patient_ID",
+    by.y = "Patient_ID",
+    all.x = TRUE,
+    all.y = TRUE
+  )
+
+head(calls_array50)
+sapply(calls_array50, class)
+
+
+
+
+
+
+##################################
+# END part 1
+##################################
+
+
+
 
 ##################################
 # Prep array50
-rownames(Array50) <- Array50$Hugo_Symbol
+
 SAVE_Array50 <- Array50
 Array50$Cellular_process <- rownames(Array50)
 # Add column for gene role
@@ -89,118 +180,30 @@ Array50$Cellular_process
 ##################################
 
 # Prep Array50 for merge
-head(Array50)
-Array50[, 2:ncol(Array50)]
+Array50[1:6,1:3]
+Array50[, 495:ncol(Array50)]
+rownames(Array50) 
+Array50[1] <- NULL
 # transpose to character
-t1 <- t(Array50)
+t1 <- t(Array50[,1:ncol(Array50)])
 head(t1)
+t1[495:nrow(t1), ]
 sapply(t1, class)
-
-t2 <- as.numeric(t(Array50))
-head(t2)
-sapply(t2, class)
-t2
-
-t3 <- as.data.frame(as.numeric(t(Array50)))
-head(t3)
+t1
+t1
+t2 <- Array50[, 495:ncol(Array50)-1]
+t3 <- t(t2)
+str(t3)
 sapply(t3, class)
-t3
-
-t4 <- as_tibble(as.numeric(t(Array50)))
-head(t4)
-sapply(t4, class)
-t4
-
+#then can merge...should stay num
 
 
 t3array50 <- as.data.frame(Array50[, 2:ncol(Array50)]) 
 #because i dont want genename as column overwise become a vector
-head(array50)
-sapply(array50, class)
+head(t3array50)
+sapply(t3array50, class)
 # all is numeric
 
 
-
-
-
-
-
-colnames(tarray50) <- rownames(Array50)
-colnames(tarray50)
-rownames(tarray50)
-head(tarray50)
-
-
-
-
-tarray50 <- cbind(Row.Names = rownames(tarray50), tarray50)
-rownames(tarray50) <- NULL
-colnames(tarray50) [1] <- "Patient_ID"
-sapply(tarray50, class)
-
-
-
-# reassign Calls to only normal, basal, luminal A/B
-pam50_score$Call2 <-
-  colnames(pam50_score[, c(2, 4:6)])[apply(pam50_score[, c(2, 4:6)], 1, which.max)]
-colnames(pam50_score) [1] <- "Patient_ID"
-sapply(pam50_score, class)
-pam50_score$X1
-# MERGE
-
-colnames(tarray50)
-colnames(pam50_score)
-
-calls_array50 <-
-  merge.data.frame(
-    tarray50,
-    pam50_score[, c(1, 7, 16)],
-    by.x = "Patient_ID",
-    by.y = "Patient_ID",
-    all.x = TRUE,
-    all.y = TRUE
-  )
-
-head(calls_array50)
-sapply(calls_array50, class)
-
-# Prep 
-# tarray50$Patient_ID <-
-#   substr(tarray50$Patient_ID,
-#          start = 6,
-#          stop = 12)
-# pam50_score$Patient_ID <-
-#   substr(pam50_score$Patient_ID, start = 6, stop = 12)
-
-
-
-##################################
-# MERGING 2 big data frame
-
-# merge pam50 calls with clinical info
-Dat_Patient_Calls <-
-  merge.data.frame(
-    dataSandP,
-    pam50_score[, c(1, 16)],
-    by.x = "PATIENT_ID",
-    by.y = "Patient_ID",
-    all.x = TRUE,
-    all.y = TRUE
-  )
-
-# merge
-dfpatient_A50 <-
-  merge.data.frame(
-    Dat_Patient_Calls,
-    tarray50
-    ,
-    by.x = "PATIENT_ID",
-    by.y = "Patient_ID",
-    all.x = TRUE,
-    all.y = TRUE
-  )
-colnames(dfpatient_A50)
-summary(dfpatient_A50)
-summary(Dat_Patient_Calls)
 
 

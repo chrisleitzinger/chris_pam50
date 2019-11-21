@@ -47,3 +47,40 @@ hc <- callsVSarray50 %>%
 
 
 #rm(dfpatient_A50)
+
+
+
+# PART 2
+##################################
+# import library
+##################################
+#install.packages("corrplot")
+
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(corrplot)
+
+####################################################
+# SAVE_Array50 plot
+####################################################
+str(SAVE_Array50)
+sapply(SAVE_Array50, class)
+head(SAVE_Array50)
+Array50[,497:ncol(Array50)-1]
+
+Ccor_Array50 <- cor(SAVE_Array50[,350:ncol(SAVE_Array50)])
+cor_Array50 <- cor(SAVE_Array50[,2:ncol(SAVE_Array50)])
+c1 <- cor(x = SAVE_Array50[,2:250], y = SAVE_Array50[,250:ncol(SAVE_Array50)])
+c2 <- cor(x = SAVE_Array50[6:9,480:ncol(SAVE_Array50)], y= SAVE_Array50[2:5,480:ncol(SAVE_Array50)])
+
+corrplot(Ccor_Array50)
+corrplot(cor_Array50)
+corrplot(c1)
+corrplot(c2)
+
+##################################
+
+
+
+
