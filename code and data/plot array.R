@@ -1,5 +1,4 @@
-dfpatient_A50
-colnames(dfpatient_A50)
+tarray50[1:5, 1:6]  #is a num matrix
 
 #checking expression for each group
 callsVSarray50 <- dfpatient_A50[, c(1, 17, (19:ncol(dfpatient_A50)))]
@@ -57,8 +56,6 @@ hc <- callsVSarray50 %>%
 #install.packages("corrplot")
 
 library(dplyr)
-library(ggplot2)
-library(stringr)
 library(corrplot)
 
 ####################################################

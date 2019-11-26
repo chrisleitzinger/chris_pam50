@@ -29,7 +29,7 @@ Array50 <- read_delim("data/tcgaPAM50.txt", delim = "\t")
 
 # other way = merge.data.frame(Sample_data, Patient_data, by.x = 2, by.y = 2)
 dataSandP <- merge.data.frame(
-  Sample_data[, c(2:3, 81, 85)],
+  Sample_data[, c(2:3, 14, 81, 85)],
   Patient_data[, c(1:2, 17:18, 32, 37, 41:43, 67, 70, 72)],
   by.x = "PATIENT_ID",
   by.y = "PATIENT_ID",
@@ -52,40 +52,46 @@ pam50_score$Call2 <-
   colnames(pam50_score[, c(2, 4:6)])[apply(pam50_score[, c(2, 4:6)], 1, which.max)]
 colnames(pam50_score) [1] <- "Patient_ID"
 sapply(pam50_score, class)
-pam50_score
+pam50_score[1:5, 1:6]
+
 # Transpose Array50
-head(Array50)
+Array50[1:5, 1:6]
 rownames(Array50) <- Array50$Hugo_Symbol
 colnames(Array50)
 rownames(Array50)
+Array50$Hugo_Symbol <- NULL
 tarray50 <- t(Array50)
 tarray50[1:5, 1:6]
 
-
-tarray50 <- cbind(Row.Names = rownames(tarray50), tarray50)
-rownames(tarray50)
-# rownames(tarray50) <- NULL
-# colnames(tarray50) [1] <- "Patient_ID"
-# sapply(tarray50, class)
+sapply(tarray50, class)
+str(tarray50)
 
 
 ##################################
 # MERGING 2 big data frame
 
+pam50_score$Patient_ID <- substr(pam50_score$Patient_ID, start = 6, stop = 12)
+pam50_score$Patient_ID
+
 # merge pam50 calls with clinical info
 Dat_Patient_Calls <-
   merge.data.frame(
     dataSandP,
-    pam50_score[, c(1, 16)],
+    pam50_score[, c(1, 7, 16)],
     by.x = "PATIENT_ID",
     by.y = "Patient_ID",
     all.x = TRUE,
     all.y = TRUE
   )
+##################################
+# Analysis in 2
+##################################
 
 # merge
+tarray50[1:5, 1:6]
+rownames(tarray50)
 tarray50$Patient_ID <- rownames(tarray50)
-
+tarray50$Patient_ID
 tarray50$Patient_ID <-
     substr(tarray50$Patient_ID,
             start = 6,
@@ -179,30 +185,30 @@ Array50$Cellular_process
 # MERGE SCORE DATA AND ARRAY50
 ##################################
 
-# Prep Array50 for merge
-Array50[1:6,1:3]
-Array50[, 495:ncol(Array50)]
-rownames(Array50) 
-Array50[1] <- NULL
-# transpose to character
-t1 <- t(Array50[,1:ncol(Array50)])
-head(t1)
-t1[495:nrow(t1), ]
-sapply(t1, class)
-t1
-t1
-t2 <- Array50[, 495:ncol(Array50)-1]
-t3 <- t(t2)
-str(t3)
-sapply(t3, class)
-#then can merge...should stay num
+# # Prep Array50 for merge
+# Array50[1:6,1:3]
+# Array50[, 495:ncol(Array50)]
+# rownames(Array50) 
+# Array50[1] <- NULL
+# # transpose to character
+# t1 <- t(Array50[,1:ncol(Array50)])
+# head(t1)
+# t1[495:nrow(t1), ]
+# sapply(t1, class)
+# t1
+# t1
+# t2 <- Array50[, 495:ncol(Array50)-1]
+# t3 <- t(t2)
+# str(t3)
+# sapply(t3, class)
+# #then can merge...should stay num
 
 
-t3array50 <- as.data.frame(Array50[, 2:ncol(Array50)]) 
-#because i dont want genename as column overwise become a vector
-head(t3array50)
-sapply(t3array50, class)
-# all is numeric
+# t3array50 <- as.data.frame(Array50[, 2:ncol(Array50)]) 
+# #because i dont want genename as column overwise become a vector
+# head(t3array50)
+# sapply(t3array50, class)
+# # all is numeric
 
 
 
